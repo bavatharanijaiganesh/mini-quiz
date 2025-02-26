@@ -1,0 +1,71 @@
+* {
+    font-family: 'Poppins'
+}
+
+.land {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 68vh;
+    padding: 0px 5vw;
+}
+
+.img-style {
+
+    width: 30vw;
+    height: 60vh;
+    padding-left: 10vw;
+}
+
+.img-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* align-self: self-start; */
+}
+
+.play {
+    display: contents;
+    font-size: larger;
+    text-align: center;
+    flex-basis: content88;
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    margin-bottom: 30px;
+    padding: 25px 40px 0px 40px;
+}
+
+.right-nav {
+    display: flex;
+    justify-content: space-around;
+}
+
+.get-start-btn {
+    padding: 5px 15px;
+    border-radius: 20px;
+    background-color: rgba(69, 36, 197, 255);
+    color: white;
+    border: 2px solid rgba(69, 36, 197, 255);
+    transform: translateY(-7px);
+    font-size: 15px;
+}
+
+.top-cnt {
+    position: relative;
+    top: 20%;
+    color: rgba(69, 36, 197, 255);
+    padding-left: 80px;
+}
+
+.lets-do-btn {
+    color: rgba(69, 36, 197, 255);
+    padding: 6px 25px;
+    background-color: white;
+    border-radius: 20px;
+    font-size: 12px;
+    box-shadow: rgba(149, 157, 165, 0.7) 0px 8px 24px;
+    border: 2px solid white;
+}

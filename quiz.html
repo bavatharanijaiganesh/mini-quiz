@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Page</title>
+    <link rel="stylesheet" href="./quiz.css">
+</head>
+
+<body>
+    <div class="quiz-container">
+        <h2 id="question-text">Loading question...</h2>
+        <div id="options-container"></div>
+        <button onclick="nextQuestion()">Next</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const questionData = JSON.parse(localStorage.getItem("quizQuestion"));
+
+            if (questionData) {
+                document.getElementById("question-text").innerText = questionData.question;
+
+                const optionsContainer = document.getElementById("options-container");
+                optionsContainer.innerHTML = "";
+                
+                questionData.options.forEach(option => {
+                    const button = document.createElement("button");
+                    button.innerText = option;
+                    button.onclick = () => alert("You selected: " + option);
+                    optionsContainer.appendChild(button);
+                });
+            } else {
+                document.getElementById("question-text").innerText = "No question found.";
+            }
+        });
+
+        function nextQuestion() {
+            alert("Next question feature not implemented yet.");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./home.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+</head>
+
+<body>
+    <div class="nav">
+        <div>
+            <img src="./title.jpeg" width="120" height="50" style="transform: translate(0px, -20px);" />
+        </div>
+        <div class="right-nav">
+            <div>Home</div>
+            <div>About Quiz</div>
+            <div>Login</div>
+            <div>
+                <button class="get-start-btn" onclick="fetchQuizData()">Get Started</button>
+            </div>
+        </div>
+    </div>
+    <div class="land">
+        <div class="top-cnt">
+            <!-- <button onclick="fetchQuizData()">Load Quiz</button> -->
+            <b>CRAT A FREE</b>
+            <p>
+                <b style="font-size : 20px; font-weight: 600;">QUIZ
+                    <span style="color : rgba(241,160,26,255); font-size : 20px; font-weight: 600;">
+                        NOW
+                    </span></b>
+            </p>
+            <p style="font-size: 14px;">The versatile data collection tool for professionals.<br />
+                Typeform makes asking easy & answering refreshing.</p>
+            <div>
+                <button class="lets-do-btn">Let's do it</button>
+            </div>
+        </div>
+        <div class="img-container">
+            <img src="./login.png" class="img-style" />
+        </div>
+    </div>
+
+    <script>
+        function fetchQuizData() {
+            fetch("http://127.0.0.1:3000/quiz")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Quiz Data:", data);
+                
+                    localStorage.setItem("quizQuestion", JSON.stringify(data));
+          
+                    window.location.href = "quiz.html";
+                })
+                .catch(error => console.error("Fetch error:", error));
+        }
+    </script>
+</body>
+
+</html>
