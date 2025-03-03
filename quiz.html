@@ -1,45 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Page</title>
-    <link rel="stylesheet" href="./quiz.css">
+    <link rel="stylesheet" href="quiz.css">
 </head>
-
 <body>
     <div class="quiz-container">
         <h2 id="question-text">Loading question...</h2>
         <div id="options-container"></div>
-        <button onclick="nextQuestion()">Next</button>
+        <button id="next-btn" onclick="nextQuestion()" disabled>Next</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const questionData = JSON.parse(localStorage.getItem("quizQuestion"));
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let correctAnswersCount = 0;
+        let selectedAnswer = null;
 
-            if (questionData) {
+        document.addEventListener("DOMContentLoaded", function () {
+            fetchQuestions();
+        });
+
+        function fetchQuestions() {
+            fetch("http://127.0.0.1:3000/all-questions") // Use your FastAPI backend URL
+                .then(response => response.json())
+                .then(data => {
+                    questions = data;
+                    loadQuestion();
+                })
+                .catch(error => console.error("Fetch error:", error));
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const questionData = questions[currentQuestionIndex];
                 document.getElementById("question-text").innerText = questionData.question;
 
                 const optionsContainer = document.getElementById("options-container");
                 optionsContainer.innerHTML = "";
-                
+                document.getElementById("next-btn").disabled = true;
+
                 questionData.options.forEach(option => {
                     const button = document.createElement("button");
                     button.innerText = option;
-                    button.onclick = () => alert("You selected: " + option);
+                    button.classList.add("option-btn");
+                    button.onclick = () => selectAnswer(button, option, questionData.answer);
                     optionsContainer.appendChild(button);
                 });
+
+                selectedAnswer = null;
             } else {
-                document.getElementById("question-text").innerText = "No question found.";
+                showResult();
             }
-        });
+        }
+
+        function selectAnswer(button, selectedOption, correctAnswer) {
+            if (selectedAnswer) return;
+
+            selectedAnswer = selectedOption;
+            document.getElementById("next-btn").disabled = false;
+
+            if (selectedOption === correctAnswer) {
+                correctAnswersCount++;
+                button.classList.add("correct");
+            } else {
+                button.classList.add("wrong");
+                // Highlight correct answer
+                document.querySelectorAll(".option-btn").forEach(btn => {
+                    if (btn.innerText === correctAnswer) {
+                        btn.classList.add("correct");
+                    }
+                });
+            }
+        }
 
         function nextQuestion() {
-            alert("Next question feature not implemented yet.");
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        function showResult() {
+            document.getElementById("question-text").innerText = `Quiz Completed! 🎉 You got ${correctAnswersCount} out of ${questions.length} correct.`;
+            document.getElementById("options-container").innerHTML = "";
+            document.getElementById("next-btn").style.display = "none";
         }
     </script>
 </body>
-
 </html>
